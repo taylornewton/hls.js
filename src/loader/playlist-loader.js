@@ -8,7 +8,7 @@ import EventHandler from '../event-handler';
 import {ErrorTypes, ErrorDetails} from '../errors';
 import AttrList from '../utils/attr-list';
 import {logger} from '../utils/logger';
-import * as LevelHelper from '../helper/level-helper'
+import * as LevelHelper from '../helper/level-helper';
 
 // https://regex101.com is your friend
 const MASTER_PLAYLIST_REGEX = /#EXT-X-STREAM-INF:([^\n\r]*)[\r\n]+([^\r\n]+)/g;
