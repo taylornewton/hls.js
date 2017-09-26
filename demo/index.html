@@ -255,7 +255,7 @@ $(document).ready(function() {
   video.volume = 0.05;
   $("#currentVersion").html("Hls version:" + Hls.version);
 
-  loadStream(decodeURIComponent(getURLParam('src','https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8')));
+  loadStream(decodeURIComponent(getURLParam('src','https://dev-video-rightnow.akamaized.net/48/195648/dev-02/19564894640379-d41d-336d-4505-298cc9061c5e.m3u8?hdnts=st=1506098580~exp=1506703440~acl=/*~id=99f49cd7-02fa-479e-9dc7-ef1e66751bf9~hmac=a6af9e8d9bec5321635d36be84009e7ecf055bea716b754da4954f54493a0bb7')));
 
   function loadStream(url) {
     hideCanvas();

@@ -36,7 +36,7 @@ const env = process.env;
 const addSubtitleSupport = (typeof env.SUBTITLE !== 'undefined' && env.SUBTITLE);
 const addAltAudioSupport = (typeof env.ALT_AUDIO !== 'undefined' && env.ALT_AUDIO);
 
-function getPluginsForConfig(type, minify = false) {
+function getPluginsForConfig(type, minify) {
   // common plugins.
   const plugins = [
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -68,6 +68,7 @@ function getConstantsForConfig(type) {
 }
 
 function getAliasesForLightDist() {
+	'use strict'
   let aliases = {};
 
   if (!addSubtitleSupport) {
@@ -156,6 +157,7 @@ const multiConfig = [
 
 // webpack matches the --env arguments to a string; for example, --env.debug.min translates to { debug: true, min: true }
 module.exports = (envArgs) => {
+	'use strict'
   if (!envArgs) {
     // If no arguments are specified, return every configuration
     return multiConfig;

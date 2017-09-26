@@ -251,7 +251,7 @@ class AudioStreamController extends EventHandler {
           }
           if (trackDetails.initSegment && !trackDetails.initSegment.data) {
               frag = trackDetails.initSegment;
-           }
+          }
           // if bufferEnd before start of playlist, load first fragment
           else if (bufferEnd <= start) {
             frag = fragments[0];
@@ -899,4 +899,3 @@ class AudioStreamController extends EventHandler {
   }
 }
 export default AudioStreamController;
-
