@@ -65,6 +65,7 @@ class SubtitleStreamController extends EventHandler {
       this.vttFragSNsProcessed[data.frag.trackId].push(data.frag.sn);
     }
     this.currentlyProcessing = null;
+    this.state = State.IDLE;
     this.nextFrag();
   }
 
@@ -185,9 +186,21 @@ class SubtitleStreamController extends EventHandler {
         fragCurrent.sn === data.frag.sn) {
           // check to see if the payload needs to be decrypted
           if ((data.payload.byteLength > 0) && (decryptData != null) && (decryptData.key != null) && (decryptData.method === 'AES-128')) {
+            var startTime;
+            try {
+              startTime = performance.now();
+            } catch (error) {
+              startTime = Date.now();
+            }
             // decrypt the subtitles
             this.decrypter.decrypt(data.payload, decryptData.key.buffer, decryptData.iv.buffer, function(decryptedData) {
-              hls.trigger(Event.FRAG_DECRYPTED, { frag: fragLoaded, payload : decryptedData });
+              var endTime;
+              try {
+                endTime = performance.now();
+              } catch (error) {
+                endTime = Date.now();
+              }
+              hls.trigger(Event.FRAG_DECRYPTED, { frag: fragLoaded, payload : decryptedData, stats: { tstart: startTime, tdecrypt: endTime } });
             });
           }
         }

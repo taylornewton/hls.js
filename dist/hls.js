@@ -14626,6 +14626,7 @@ var subtitle_stream_controller_SubtitleStreamController = function (_EventHandle
       this.vttFragSNsProcessed[data.frag.trackId].push(data.frag.sn);
     }
     this.currentlyProcessing = null;
+    this.state = subtitle_stream_controller_State.IDLE;
     this.nextFrag();
   };
 
@@ -14759,9 +14760,21 @@ var subtitle_stream_controller_SubtitleStreamController = function (_EventHandle
     if (this.state === subtitle_stream_controller_State.FRAG_LOADING && fragCurrent && data.frag.type === 'subtitle' && fragCurrent.sn === data.frag.sn) {
       // check to see if the payload needs to be decrypted
       if (data.payload.byteLength > 0 && decryptData != null && decryptData.key != null && decryptData.method === 'AES-128') {
+        var startTime;
+        try {
+          startTime = performance.now();
+        } catch (error) {
+          startTime = Date.now();
+        }
         // decrypt the subtitles
         this.decrypter.decrypt(data.payload, decryptData.key.buffer, decryptData.iv.buffer, function (decryptedData) {
-          hls.trigger(events["a" /* default */].FRAG_DECRYPTED, { frag: fragLoaded, payload: decryptedData });
+          var endTime;
+          try {
+            endTime = performance.now();
+          } catch (error) {
+            endTime = Date.now();
+          }
+          hls.trigger(events["a" /* default */].FRAG_DECRYPTED, { frag: fragLoaded, payload: decryptedData, stats: { tstart: startTime, tdecrypt: endTime } });
         });
       }
     }
